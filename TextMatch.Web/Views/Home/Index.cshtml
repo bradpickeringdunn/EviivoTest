@@ -1,0 +1,51 @@
+﻿@model TextMatch.Web.Models.TestMatchViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Test match</h1>
+</div>
+
+<div class="row">
+    @using (Html.BeginForm("Match", "String",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div>
+            @Html.LabelFor(x => x.Text)
+            @Html.EditorFor(x => x.Text)
+            @Html.ValidationMessageFor(x => x.Text)
+        </div>
+        <div>
+            @Html.LabelFor(x => x.SubText)
+            @Html.EditorFor(x => x.SubText)
+            @Html.ValidationMessageFor(x => x.Text)
+        </div>
+
+        <input type="submit" value="Compare" />
+
+        <div>
+            @if (Model != null && Model.Output != null && Model.Output.Any())
+            {
+                <h1>Output</h1>
+                if (Model.Output.Any())
+                {
+                    foreach (var output in Model.Output)
+                    {
+                    @output <span>,</span>
+                    }
+                }
+            }
+
+            @if (Model != null && Model != null && !Model.Output.Any())
+            {
+                @Model.ErrorMessage
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
